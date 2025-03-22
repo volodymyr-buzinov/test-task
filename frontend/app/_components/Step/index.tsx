@@ -1,5 +1,5 @@
 "use client"
-
+import posthog from "posthog-js"
 import { QuizContextType } from "@/app/_context/QuizContext"
 import { QuizAnswer, QuizQuestion } from "@/app/_types"
 import { useSearchParams } from "next/navigation"
@@ -16,7 +16,7 @@ export const Step = ({answers, changeStep, currentQuestion, questions, saveAnswe
     const searchParams = useSearchParams();
     const [optionalData, setOptionalData] = useState<{title: string, answers: QuizAnswer[]}>()
     const [dataIsPending, setDataIsPending] = useState(true)
-
+    
     
   useEffect(() => {
     searchParams.entries().find(([key, val]) => {
@@ -32,8 +32,13 @@ export const Step = ({answers, changeStep, currentQuestion, questions, saveAnswe
     const answersState = answers[step] || [] 
     const answerExists = answersState.some(answ => answ.id === newAnswer.id)
     if (!currentQuestion.multiple) return saveAnswer({step, answer: answerExists ? [] : [newAnswer]})
-
+    
     saveAnswer({step, answer: answerExists ? answersState.filter((answ) => answ.id !== newAnswer.id) : [...answersState, newAnswer]})
+  }
+
+  const goNext = () => {
+    posthog.capture("user-answered-question", {quizAnswer: answers[step] || [] , quizStep: step})
+    changeStep(step + 1, answers[step]?.find(answ => answ.setParam)?.setParam)
   }
 
 
@@ -49,7 +54,7 @@ export const Step = ({answers, changeStep, currentQuestion, questions, saveAnswe
         </ul>
         <div className="Step-control">
             <button className="Step-btn" disabled={step <= 1} onClick={() => changeStep(step - 1)}>Prev</button>
-            <button className="Step-btn" disabled={step >= questions?.length || !answers[step]?.length} onClick={() => changeStep(step + 1, answers[step]?.find(answ => answ.setParam)?.setParam)}>Next</button>
+            <button className="Step-btn" disabled={step >= questions?.length || !answers[step]?.length} onClick={goNext}>Next</button>
         </div>
     </div>
 }
