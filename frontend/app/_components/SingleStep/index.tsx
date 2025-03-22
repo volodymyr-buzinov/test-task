@@ -1,5 +1,11 @@
 import { QuizContextType } from "@/app/_context/QuizContext"
+import { QuizQuestion } from "@/app/_types"
 
-export const SingleStep = ({}: QuizContextType) => {
+
+interface SingleStepProps extends QuizContextType {
+    currentQuestion: QuizQuestion
+}
+
+export const SingleStep = ({}: SingleStepProps) => {
     return <h1>SingleStep</h1>
 }

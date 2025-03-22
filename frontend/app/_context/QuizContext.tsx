@@ -2,12 +2,19 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 import { QuizQuestion } from "../_types";
+import { useRouter } from "next/navigation";
 
+
+interface SaveAnswer {
+    step: string
+    answer: string[]
+}
 
 export type QuizContextType = {
     answers: { [key: number]: string[] }; 
-    saveAnswer: (step: number, answer: string[]) => void;
+    saveAnswer: (props: SaveAnswer) => void;
     questions: QuizQuestion[]
+    changeStep: (nextStep: string) => void 
 };
 
 const QuizContext = createContext<QuizContextType | undefined>(undefined);
@@ -21,13 +28,21 @@ interface QuizProviderProps {
 
 export function QuizProvider({ children, questions }: QuizProviderProps) {
     const [answers, setAnswers] = useState<{ [key: number]: string[] }>({});
+    const router = useRouter()
 
-    const saveAnswer = (step: number, answer: string[]) => {
-        setAnswers((prev) => ({ ...prev, [step]: answer }));
+    const saveAnswer = ({answer, step}: SaveAnswer) => {
+        setAnswers((prev) => ({ ...prev, [step]: answer }))
     };
 
+    const changeStep = (nextStep: string) => {
+        if (+nextStep > questions.length || +nextStep < 0) return;
+        router.push(`/${nextStep}`)
+    }
+
+    
+
     return (
-        <QuizContext.Provider value={{ answers, saveAnswer, questions }}>
+        <QuizContext.Provider value={{ answers, saveAnswer, questions, changeStep }}>
             {children}
         </QuizContext.Provider>
     );
