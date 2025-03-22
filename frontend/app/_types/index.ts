@@ -16,4 +16,6 @@ export interface QuizQuestion {
     width: number
     height: number
   }
+  answers: QuizAnswer[]
 }
+

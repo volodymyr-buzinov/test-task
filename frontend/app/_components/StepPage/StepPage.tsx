@@ -1,8 +1,7 @@
 "use client"
 
 import { useQuiz } from "@/app/_context/QuizContext"
-import { MutipleStep } from "../MultipleStep"
-import { SingleStep } from "../SingleStep"
+import { Step } from "../Step"
 import { ProgressBar } from "../ProgressBar/ProgressBar"
 import "./StepPage.css";
 
@@ -20,6 +19,6 @@ export const StepPage = ({step}: StepPageProps) => {
     
     return <div className="StepPage">
         <ProgressBar answersLength={Object.keys(quizProps.answers).length} questionsLength={quizProps.questions.length}/>
-        {currentQuestion.multiple ? <MutipleStep {...quizProps} currentQuestion={currentQuestion}/> : <SingleStep {...quizProps} currentQuestion={currentQuestion}/>}
+        <Step {...quizProps} currentQuestion={currentQuestion} step={step}/>
     </div>
 }

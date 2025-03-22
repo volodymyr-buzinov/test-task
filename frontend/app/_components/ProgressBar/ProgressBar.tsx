@@ -10,7 +10,7 @@ export const ProgressBar = ({ answersLength, questionsLength }: ProgressBarProps
 
   return (
     <div className="ProgressBar-wrap">
-    <p className="ProgressBar-progress">Finished {answersLength} from {questionsLength}</p>
+    <p className="ProgressBar-progress">Finished {answersLength} out of {questionsLength}</p>
     <div className="ProgressBar">
       <div className="ProgressBar-bar" style={{ width: `${progress}%` }} />
     </div>

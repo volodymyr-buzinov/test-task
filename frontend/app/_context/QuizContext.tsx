@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 
 interface SaveAnswer {
-    step: string
+    step: number
     answer: string[]
 }
 
@@ -14,7 +14,7 @@ export type QuizContextType = {
     answers: { [key: number]: string[] }; 
     saveAnswer: (props: SaveAnswer) => void;
     questions: QuizQuestion[]
-    changeStep: (nextStep: string) => void 
+    changeStep: (nextStep: number) => void 
 };
 
 const QuizContext = createContext<QuizContextType | undefined>(undefined);
@@ -34,12 +34,10 @@ export function QuizProvider({ children, questions }: QuizProviderProps) {
         setAnswers((prev) => ({ ...prev, [step]: answer }))
     };
 
-    const changeStep = (nextStep: string) => {
-        if (+nextStep > questions.length || +nextStep < 0) return;
+    const changeStep = (nextStep: number) => {
+        if (nextStep > questions.length || nextStep < 0) return;
         router.push(`/${nextStep}`)
     }
-
-    
 
     return (
         <QuizContext.Provider value={{ answers, saveAnswer, questions, changeStep }}>
