@@ -1,7 +1,8 @@
 
 
-export default function QuizStep({ params }: { params: { step: string } }) {
-    const stepNumber = Number(params.step);
+export default async function QuizStep({ params }: { params: { step: string } }) {
+    const queryParams = await params
+    const stepNumber = Number(queryParams.step);
 
     // const res = await fetch("https://your-api.com/quiz-questions", {
     //     next: { revalidate: 60 }, // ISR: Refreshes every 10 seconds
