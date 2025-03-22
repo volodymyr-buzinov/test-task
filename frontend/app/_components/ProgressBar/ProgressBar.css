@@ -1,0 +1,23 @@
+.ProgressBar {
+    height: 16px;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid skyblue;
+  }
+  
+  .ProgressBar-bar {
+    height: 100%;
+    background-color: skyblue;
+    transition: width 0.3s ease-in-out;
+  }
+
+  .ProgressBar-wrap {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .ProgressBar-progress {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }

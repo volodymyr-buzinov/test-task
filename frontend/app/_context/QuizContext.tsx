@@ -27,7 +27,7 @@ interface QuizProviderProps {
 }
 
 export function QuizProvider({ children, questions }: QuizProviderProps) {
-    const [answers, setAnswers] = useState<{ [key: number]: string[] }>({});
+    const [answers, setAnswers] = useState<{ [key: string]: string[] }>({});
     const router = useRouter()
 
     const saveAnswer = ({answer, step}: SaveAnswer) => {

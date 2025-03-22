@@ -19,7 +19,7 @@ export const StepPage = ({step}: StepPageProps) => {
     if (!currentQuestion || step > quizProps.questions.length) return <h1>Wrong step, try again</h1>
     
     return <div className="StepPage">
-        <ProgressBar/>
+        <ProgressBar answersLength={Object.keys(quizProps.answers).length} questionsLength={quizProps.questions.length}/>
         {currentQuestion.multiple ? <MutipleStep {...quizProps} currentQuestion={currentQuestion}/> : <SingleStep {...quizProps} currentQuestion={currentQuestion}/>}
     </div>
 }
