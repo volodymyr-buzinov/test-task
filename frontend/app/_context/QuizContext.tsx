@@ -1,20 +1,20 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from "react";
-import { QuizQuestion } from "../_types";
+import { QuizAnswer, QuizQuestion } from "../_types";
 import { useRouter } from "next/navigation";
 
 
 interface SaveAnswer {
     step: number
-    answer: string[]
+    answer: QuizAnswer[]
 }
 
 export type QuizContextType = {
-    answers: { [key: number]: string[] }; 
+    answers: { [key: number]: QuizAnswer[] }; 
     saveAnswer: (props: SaveAnswer) => void;
     questions: QuizQuestion[]
-    changeStep: (nextStep: number) => void 
+    changeStep: (nextStep: number, query?: string) => void 
     clearAnswer: (step: number) => void
 };
 
@@ -29,10 +29,9 @@ interface QuizProviderProps {
 }
 
 export function QuizProvider({ children, questions}: QuizProviderProps) {
-    const [answers, setAnswers] = useState<{ [key: string]: string[] }>({});
+    const [answers, setAnswers] = useState<{ [key: string]: QuizAnswer[] }>({});
     const router = useRouter()
     
-
     const saveAnswer = ({answer, step}: SaveAnswer) => {
         setAnswers((prev) => ({ ...prev, [step]: answer }))
     };
@@ -43,9 +42,14 @@ export function QuizProvider({ children, questions}: QuizProviderProps) {
         setAnswers(newAnswers)
     }
 
-    const changeStep = (nextStep: number) => {
+    const changeStep = (nextStep: number, query?: string) => {
         if (nextStep > questions.length || nextStep < 0) return;
-        router.push(`/quiz/${nextStep}${location.search ? `${location.search}` : ""}`)
+        const newQueryParams = new URLSearchParams(location.search)
+        if (query) {
+            const [key, val] = query.split("=")
+            newQueryParams.set(key, val)
+        }
+        router.push(`/quiz/${nextStep}${newQueryParams.size > 0 ? `?${newQueryParams.toString()}` : ""}`)
     }
 
     return (

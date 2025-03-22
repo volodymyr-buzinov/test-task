@@ -16,6 +16,7 @@ export const Step = ({answers, changeStep, currentQuestion, questions, saveAnswe
     const searchParams = useSearchParams();
     const [optionalData, setOptionalData] = useState<{title: string, answers: QuizAnswer[]}>()
     const [dataIsPending, setDataIsPending] = useState(true)
+
     
   useEffect(() => {
     searchParams.entries().find(([key, val]) => {
@@ -27,13 +28,14 @@ export const Step = ({answers, changeStep, currentQuestion, questions, saveAnswe
 
   }, [currentQuestion.optional, searchParams])
 
-  const handleAnswersChange = (answer: string) => {
+  const handleAnswersChange = (newAnswer: QuizAnswer) => {
     const answersState = answers[step] || [] 
+    const answerExists = answersState.some(answ => answ.id === newAnswer.id)
+    if (!currentQuestion.multiple) return saveAnswer({step, answer: answerExists ? [] : [newAnswer]})
 
-    if (!currentQuestion.multiple) return saveAnswer({step, answer: answersState.includes(answer) ? [] : [answer]})
-
-    saveAnswer({step, answer: answersState.includes(answer) ? answersState.filter((answ: string) => answ !== answer) : [...answersState, answer]})
+    saveAnswer({step, answer: answerExists ? answersState.filter((answ) => answ.id !== newAnswer.id) : [...answersState, newAnswer]})
   }
+
 
   if (dataIsPending) return <div className="Step"><span className="Step-loader"></span></div>
     
@@ -41,13 +43,13 @@ export const Step = ({answers, changeStep, currentQuestion, questions, saveAnswe
         <h1 className="Step-title">{optionalData ? optionalData.title : currentQuestion.title}</h1>
         <ul className="Step-list">
         {(optionalData ? optionalData.answers : currentQuestion.answers).map(answer => 
-        <li className={`Step-answer ${(answers[step] || []).includes(answer.text) ? "active" : ""}`} key={answer.id} onClick={() => handleAnswersChange(answer.text)}>
+        <li className={`Step-answer ${(answers[step] || []).some(answ => answ.id === answer.id) ? "active" : ""}`} key={answer.id} onClick={() => handleAnswersChange(answer)}>
          {answer.text}
         </li>)}
         </ul>
         <div className="Step-control">
             <button className="Step-btn" disabled={step <= 1} onClick={() => changeStep(step - 1)}>Prev</button>
-            <button className="Step-btn" disabled={step >= questions?.length || !answers[step]?.length} onClick={() => changeStep(step + 1)}>Next</button>
+            <button className="Step-btn" disabled={step >= questions?.length || !answers[step]?.length} onClick={() => changeStep(step + 1, answers[step]?.find(answ => answ.setParam)?.setParam)}>Next</button>
         </div>
     </div>
 }
