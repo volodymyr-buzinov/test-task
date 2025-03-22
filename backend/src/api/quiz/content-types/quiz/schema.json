@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "quizzes",
+  "info": {
+    "singularName": "quiz",
+    "pluralName": "quizzes",
+    "displayName": "quiz",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "multiple": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "optional": {
+      "type": "json",
+      "required": true
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "answers": {
+      "type": "json",
+      "required": true
+    }
+  }
+}
