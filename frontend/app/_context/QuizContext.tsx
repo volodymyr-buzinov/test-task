@@ -1,25 +1,36 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from "react";
+import { QuizQuestion } from "../_types";
+
 
 type QuizContextType = {
     answers: { [key: number]: string[] }; 
     saveAnswer: (step: number, answer: string[]) => void;
+    questions: QuizQuestion[]
 };
 
 const QuizContext = createContext<QuizContextType | undefined>(undefined);
 
-export function QuizProvider({ children }: { children: ReactNode }) {
-    const [answers, setAnswers] = useState<{ [key: number]: string[] }>({});
-    console.log(answers, "answers");
-    
 
+
+interface QuizProviderProps {
+    children: ReactNode
+    questions: QuizQuestion[]
+}
+
+export function QuizProvider({ children, questions }: QuizProviderProps) {
+    const [answers, setAnswers] = useState<{ [key: number]: string[] }>({});
+
+    console.log(questions, "questions");
+    
+    
     const saveAnswer = (step: number, answer: string[]) => {
         setAnswers((prev) => ({ ...prev, [step]: answer }));
     };
 
     return (
-        <QuizContext.Provider value={{ answers, saveAnswer }}>
+        <QuizContext.Provider value={{ answers, saveAnswer, questions }}>
             {children}
         </QuizContext.Provider>
     );
