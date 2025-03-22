@@ -36,6 +36,10 @@
     "answers": {
       "type": "json",
       "required": true
+    },
+    "sort": {
+      "required": true,
+      "type": "integer"
     }
   }
 }

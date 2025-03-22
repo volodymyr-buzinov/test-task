@@ -4,7 +4,7 @@ import { createContext, useContext, useState, ReactNode } from "react";
 import { QuizQuestion } from "../_types";
 
 
-type QuizContextType = {
+export type QuizContextType = {
     answers: { [key: number]: string[] }; 
     saveAnswer: (step: number, answer: string[]) => void;
     questions: QuizQuestion[]
@@ -22,9 +22,6 @@ interface QuizProviderProps {
 export function QuizProvider({ children, questions }: QuizProviderProps) {
     const [answers, setAnswers] = useState<{ [key: number]: string[] }>({});
 
-    console.log(questions, "questions");
-    
-    
     const saveAnswer = (step: number, answer: string[]) => {
         setAnswers((prev) => ({ ...prev, [step]: answer }));
     };

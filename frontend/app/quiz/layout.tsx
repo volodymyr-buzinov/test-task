@@ -3,8 +3,8 @@ import { QuizQuestion } from "../_types";
 
 
 
-async function getQuizData(): Promise<QuizQuestion[]> {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/quizzes`, {
+async function getQuizData(): Promise<{data: QuizQuestion[]}> {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/quizzes?populate=*`, {
         next: { revalidate: 60 },
     });
 
@@ -15,5 +15,5 @@ async function getQuizData(): Promise<QuizQuestion[]> {
 export default async function QuizLayout({ children }: { children: React.ReactNode }) {
     const questions = await getQuizData();
 
-    return <QuizProvider questions={questions}>{children}</QuizProvider>;
+    return <QuizProvider questions={questions.data}>{children}</QuizProvider>;
 }
