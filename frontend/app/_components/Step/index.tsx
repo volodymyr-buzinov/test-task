@@ -47,7 +47,7 @@ export const Step = ({answers, changeStep, currentQuestion, questions, saveAnswe
         </ul>
         <div className="Step-control">
             <button className="Step-btn" disabled={step <= 1} onClick={() => changeStep(step - 1)}>Prev</button>
-            <button className="Step-btn" disabled={step >= questions.length} onClick={() => changeStep(step + 1)}>Next</button>
+            <button className="Step-btn" disabled={step >= questions?.length || !answers[step]?.length} onClick={() => changeStep(step + 1)}>Next</button>
         </div>
     </div>
 }

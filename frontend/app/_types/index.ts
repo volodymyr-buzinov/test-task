@@ -1,6 +1,7 @@
 export interface QuizAnswer {
     id: string
     text: string
+    setParam?: string
 }
 
 

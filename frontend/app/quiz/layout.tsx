@@ -12,7 +12,11 @@ async function getQuizData(): Promise<{data: QuizQuestion[]}> {
     return res.json();
 }
 
-export default async function QuizLayout({ children }: { children: React.ReactNode }) {
+interface QuizLayout {
+    children: React.ReactNode
+}
+
+export default async function QuizLayout({ children }: QuizLayout) {
     const questions = await getQuizData();
 
     return <QuizProvider questions={questions.data}>{children}</QuizProvider>;

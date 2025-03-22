@@ -43,6 +43,8 @@
   border-radius: 0.5rem;
 }
 .Step-btn:disabled {
+    filter: grayscale(50%) brightness(80%);
+    opacity: 0.6;
     cursor: not-allowed;
 }
 .Step-btn:first-child {

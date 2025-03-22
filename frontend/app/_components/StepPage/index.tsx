@@ -2,8 +2,8 @@
 
 import { useQuiz } from "@/app/_context/QuizContext"
 import { Step } from "../Step"
-import { ProgressBar } from "../ProgressBar/ProgressBar"
-import "./StepPage.css";
+import { ProgressBar } from "../ProgressBar"
+import "./index.css";
 
 
 interface StepPageProps {
@@ -18,7 +18,7 @@ export const StepPage = ({step}: StepPageProps) => {
     if (!currentQuestion || step > quizProps.questions.length) return <h1>Wrong step, try again</h1>
     
     return <div className="StepPage">
-        <ProgressBar answersLength={Object.keys(quizProps.answers).length} questionsLength={quizProps.questions.length}/>
+        <ProgressBar step={step} questionsLength={quizProps.questions.length}/>
         <Step {...quizProps} currentQuestion={currentQuestion} step={step}/>
     </div>
 }

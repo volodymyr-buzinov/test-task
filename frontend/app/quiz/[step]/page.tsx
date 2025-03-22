@@ -1,4 +1,4 @@
-import { StepPage } from "@/app/_components/StepPage/StepPage";
+import { StepPage } from "@/app/_components/StepPage";
 import { notFound } from "next/navigation";
 
 interface QuizStepProps {
